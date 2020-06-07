@@ -1,6 +1,7 @@
 # vue_egg
 
 ## Project setup
+### After cloning if node_modules missing
 ```
 npm install
 ```
