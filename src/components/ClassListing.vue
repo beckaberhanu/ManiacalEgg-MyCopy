@@ -61,7 +61,7 @@ export default {
   },
   data() {
     return {
-      isActive: false
+      isActive: true
     };
   },
   methods: {
@@ -76,6 +76,8 @@ export default {
   padding: 15px 20px;
   border: 1px solid #d2d2d2;
   border-radius: 15px;
+  margin: 10px 30px;
+  box-shadow: 0 4px 14px rgba(0, 13, 173, 0.16);
 }
 .preview-section {
   display: flex;
@@ -117,7 +119,7 @@ export default {
   padding: 10px 0;
 }
 .course-description {
-  width: 540px;
+  width: 450px;
   margin: 0;
   padding-right: 20px;
   border-width: 0 2px 0 0;
@@ -147,22 +149,12 @@ export default {
   margin-bottom: 5px;
 }
 .sections-table {
-  /* display: flex; */
-  /* border: 1px solid black; */
   border-collapse: collapse;
   flex: 1;
   margin-left: 20px;
   margin: 10px;
+  /* width: 440px; */
 }
-/* .sections-column {
-  display: flex;
-  flex-direction: column;
-}
-.sections-column div {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-} */
 .section-table-top-row {
   font-size: 1em;
   font-family: "DIN Condensed";
@@ -173,13 +165,11 @@ export default {
   margin: 0;
 }
 .section-table-top-row {
-  /* border: 1px solid black; */
-  border-width: 0 0 1px 0;
+  border-width: 0 0 2px 0;
   border-style: solid;
   border-color: #71c5e8;
 }
 .section-table-entry-row {
-  /* border: 1px solid black; */
   border-width: 0 0 1px 0;
   border-style: solid;
   border-color: #d44420;

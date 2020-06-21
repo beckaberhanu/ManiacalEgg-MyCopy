@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <ClassListing :data="course"></ClassListing>
+    <div class="left-panel">
+      <div class="search-btns"></div>
+    </div>
+    <div class="right-panel">
+      <h1 class="site-title">Maniacal Egg</h1>
+      <div class="class-listings-scroll-panel">
+        <div class="column-keys"></div>
+        <ClassListing v-for="i in 20" :key="i" :data="course"></ClassListing>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
-import ClassListing from "./components/ClassListing.vue";
+import ClassListing from "./ClassListing.vue";
 
 export default {
   name: "App",
@@ -73,12 +81,56 @@ export default {
 </script>
 
 <style>
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.left-panel {
+  width: 400px;
+  border-width: 0 1px 0 0;
+  border-color: #c7c7c7;
+  border-style: solid;
+}
+.right-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.site-title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3em;
+  font-weight: 900;
+  text-align: start;
+  margin: 0;
+  padding: 10px 20px;
+  border-width: 0 0 1px 0;
+  border-color: #c7c7c7;
+  border-style: solid;
+}
+.class-listings-scroll-panel {
+  align-self: center;
+  flex: 1;
+  width: 100%;
+  overflow-y: scroll;
+  align-items: stretch;
 }
 </style>
