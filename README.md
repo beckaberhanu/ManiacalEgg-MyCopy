@@ -24,11 +24,5 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-# Goals
-1. Basic Website with simple set up -- Ryan
-2. Drop down menu component -- Elisabeth
-3. Class listing component -- Becka
-4. Dual Slider component
-
 # Inspo
-![Image of Inspo]()
+![Image of Inspo](https://github.com/Kinnucan/vue_egg/blob/master/inspo.png)
