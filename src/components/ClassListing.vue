@@ -1,36 +1,198 @@
 <template>
-  <div class="classListing">
-    <div class="top-section"></div>
-    <div class="bottom-section">
-      <div class="descriptio-and-sections">
-        <div class="description-and-sections">
-          <p></p>
-          <div class="sections"></div>
-        </div>
+  <div class="class-listing" :class="{collapsed: isActive}">
+    <div class="preview-section" @click="toggleExpand()">
+      <h2 class="preview-course-title">{{data.Title}}</h2>
+      <h3 class="preview-course-code">{{data.ClassCode}}</h3>
+      <h3 class="preview-course-department">{{data.Department}}</h3>
+    </div>
+    <div class="detail-section">
+      <p class="course-description">{{data.Description}}</p>
+      <div class="course-details">
+        <p class="course-detail-category">Department</p>
+        <ul class="course-detail-info">
+          <li>{{data.Department}}</li>
+        </ul>
+
+        <p class="course-detail-category">Distribution Requirments</p>
+        <ul class="course-detail-info">
+          <li>{{data.DistributionReq}}</li>
+        </ul>
+
+        <p class="course-detail-category">General Education Requirments</p>
+        <ul class="course-detail-info">
+          <li v-for="(GeneralEd,index2) in data.GeneralEds" :key="index2">{{data.GeneralEd}}</li>
+        </ul>
+
+        <p class="course-detail-category">Prerequisites</p>
+        <ul class="course-detail-info">
+          <li v-for="(Prereq,index2) in data.Prerequisites" :key="index2">{{Prereq}}</li>
+        </ul>
       </div>
-      <div class="course-details"></div>
+      <table class="sections-table">
+        <tr class="section-table-top-row">
+          <th>Section</th>
+          <th>Instructor</th>
+          <th>Location</th>
+          <th>Time</th>
+          <th>Availability</th>
+        </tr>
+        <tr class="section-table-entry-row" v-for="section in data.Sections" :key="section">
+          <td>{{section.id}}</td>
+          <td>{{section.Instructor}}</td>
+          <td>{{section.Room}}</td>
+          <td>
+            <ul class="section-table-time-cell">
+              <li>{{section.Date}}</li>
+              <li>{{section.Time}}</li>
+            </ul>
+          </td>
+          <td>{{section.Availability[0]}}/{{section.Availability[1]}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   name: "ClassListing",
-  date() {
+  props: {
+    data: Object
+  },
+  data() {
     return {
-      Title: "Core Concept of Computer Science",
-      classCode: "COMP 123",
-      department: "Computer Science",
-      DistributionReq: "Natural Science and Mathematics",
-      GeneralEd: ["Quantitative Thinking Q3"],
-      Description: "",
-      Sections: {
-        "COMP 123-01": {
-          Instructor: "Jessica Love-Nichols"
-        }
-      }
+      isActive: false
     };
+  },
+  methods: {
+    toggleExpand: function() {
+      this.isActive = !this.isActive;
+    }
   }
 };
 </script>
 <style scoped>
+.class-listing {
+  padding: 15px 20px;
+  border: 1px solid #d2d2d2;
+  border-radius: 15px;
+}
+.preview-section {
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+}
+.preview-section:hover {
+  cursor: pointer;
+}
+.class-listing.collapsed .detail-section {
+  display: none;
+}
+.preview-course-title {
+  font-family: "DIN Condensed";
+  font-size: 1.5em;
+  text-align: start;
+  width: 580px;
+  margin: 0;
+}
+.preview-course-code {
+  text-align: start;
+  font-size: 1em;
+  width: 230px;
+  margin: 0;
+}
+.preview-course-department {
+  text-align: start;
+  font-size: 1em;
+  margin: 0;
+}
+
+.detail-section {
+  display: flex;
+  margin: 10px 0 5px 0;
+
+  border-width: 2px 0 0 0;
+  border-style: solid;
+  border-color: #d2d2d2;
+  padding: 10px 0;
+}
+.course-description {
+  width: 540px;
+  margin: 0;
+  padding-right: 20px;
+  border-width: 0 2px 0 0;
+  border-style: solid;
+  border-color: #d2d2d2;
+  font-size: 0.8em;
+  text-align: start;
+}
+
+.course-details {
+  padding: 0 20px;
+  border-width: 0 2px 0 0;
+  border-style: solid;
+  border-color: #d2d2d2;
+}
+.course-detail-category {
+  font-family: "DIN Condensed";
+  font-size: 1.1em;
+  text-align: start;
+  margin: 0;
+}
+.course-detail-info {
+  font-size: 0.75em;
+  text-align: start;
+  list-style-image: url("../assets/Bullet.svg");
+  padding: 0 0 0 20px;
+  margin-bottom: 5px;
+}
+.sections-table {
+  /* display: flex; */
+  /* border: 1px solid black; */
+  border-collapse: collapse;
+  flex: 1;
+  margin-left: 20px;
+  margin: 10px;
+}
+/* .sections-column {
+  display: flex;
+  flex-direction: column;
+}
+.sections-column div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+} */
+.section-table-top-row {
+  font-size: 1em;
+  font-family: "DIN Condensed";
+}
+.section-table-time-cell {
+  list-style-image: url("../assets/Bullet.svg");
+  padding: 0 0 0 20px;
+  margin: 0;
+}
+.section-table-top-row {
+  /* border: 1px solid black; */
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #71c5e8;
+}
+.section-table-entry-row {
+  /* border: 1px solid black; */
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #d44420;
+  font-size: 0.7em;
+}
+table tr {
+  font-size: 0.8em;
+}
+th,
+td {
+  text-align: start;
+}
+ul {
+  margin: 0;
+}
 </style>
