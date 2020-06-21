@@ -29,3 +29,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 2. Drop down menu component -- Elisabeth
 3. Class listing component -- Becka
 4. Dual Slider component
+
+# Inspo
+![Image of Inspo]()
