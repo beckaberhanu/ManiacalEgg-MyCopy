@@ -1,7 +1,9 @@
 <template>
-  <div class="class-listing" :class="{collapsed: isActive}">
+  <div class="class-listing" :class="{collapsed: isCollapsed}">
     <div class="preview-section" @click="toggleExpand()">
-      <h2 class="preview-course-title">{{data.Title}}</h2>
+      <div class="preview-course-title-container">
+        <h2 class="preview-course-title">{{data.Title}}</h2>
+      </div>
       <h3 class="preview-course-code">{{data.ClassCode}}</h3>
       <h3 v-if="data.Departments.length>1" class="preview-course-department">Cross Listed Course</h3>
       <h3 v-else class="preview-course-department">{{data.Departments[0]}}</h3>
@@ -11,7 +13,7 @@
       <div class="course-details">
         <p class="course-detail-category">Department</p>
         <ul class="course-detail-info">
-          <li v-for="Department in data.Departments" :key="Department">{{Department}}</li>
+          <li v-for="(Department,index2) in data.Departments" :key="index2">{{Department}}</li>
         </ul>
 
         <p class="course-detail-category">Distribution Requirments</p>
@@ -40,7 +42,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="section-table-entry-row" v-for="section in data.Sections" :key="section">
+          <tr
+            class="section-table-entry-row"
+            v-for="(section, index2) in data.Sections"
+            :key="index2"
+          >
             <td>{{section.id}}</td>
             <td>{{section.Instructor}}</td>
             <td>{{section.Room}}</td>
@@ -66,12 +72,12 @@ export default {
   },
   data() {
     return {
-      isActive: true
+      isCollapsed: true
     };
   },
   methods: {
     toggleExpand: function() {
-      this.isActive = !this.isActive;
+      this.isCollapsed = !this.isCollapsed;
     },
     reformatTimeNormal: function(time) {
       console.log(time);
@@ -88,32 +94,34 @@ export default {
 </script>
 <style scoped>
 .class-listing {
-  padding: 15px 20px;
+  padding: 9px 20px;
   border: 1px solid #d2d2d2;
-  border-radius: 15px;
+  border-radius: 18px;
   margin: 10px 30px;
   box-shadow: 0 4px 14px rgba(0, 13, 173, 0.16);
 }
 .preview-section {
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: flex-start;
 }
 .preview-section:hover {
   cursor: pointer;
 }
-.class-listing.collapsed .detail-section {
-  display: none;
+.preview-course-title-container {
+  margin: 0;
+  min-width: 300px;
+  flex: 5;
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .preview-course-title {
   font-family: "DIN Condensed";
-  font-size: 1.5em;
+  font-size: 1.4em;
   text-align: start;
-  /* width: 580px; */
   margin: 0;
-
-  min-width: 300;
-  flex: 5;
 }
 .preview-course-code {
   text-align: start;
@@ -133,15 +141,30 @@ export default {
   margin: 0 10px;
 }
 
+.class-listing.collapsed .detail-section {
+  display: none;
+}
 .detail-section {
   display: flex;
   margin: 10px 0 5px 0;
-
+  height: 0%;
   border-width: 2px 0 0 0;
   border-style: solid;
   border-color: #d2d2d2;
   padding: 10px 0;
+  animation: expand-tile-anim 1s cubic-bezier(0.4, 0, 0.59, 1);
 }
+@keyframes expand-tile-anim {
+  0% {
+    max-height: 0px;
+    opacity: 0;
+  }
+  100% {
+    max-height: 400px;
+    opacity: 1;
+  }
+}
+
 .course-description {
   margin: 0;
   padding-right: 20px;

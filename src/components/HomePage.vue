@@ -7,7 +7,11 @@
     <div class="right-panel">
       <h1 class="site-title">Maniacal Egg</h1>
       <div class="class-listings-scroll-panel">
-        <div class="class-listings-scroll-header"></div>
+        <div class="class-listings-scroll-header">
+          <h2 class="scroll-headers course-title-header">Course Title</h2>
+          <h2 class="scroll-headers course-id-header">Course Id</h2>
+          <h2 class="scroll-headers department-header">Department</h2>
+        </div>
         <ClassListing v-for="i in 20" :key="i" :data="course"></ClassListing>
       </div>
     </div>
@@ -157,5 +161,27 @@ body {
   position: sticky;
   top: 10px;
   background-color: rgb(240, 240, 255);
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+}
+.scroll-headers {
+  margin: 0px;
+  font-size: 1em;
+  text-align: start;
+}
+.scroll-headers.course-title-header {
+  min-width: 300px;
+  flex: 5;
+}
+.scroll-headers.course-id-header {
+  padding: 0 20px;
+  min-width: 180px;
+  flex: 2;
+}
+.scroll-headers.department-header {
+  min-width: 400px;
+  flex: 1;
+  margin: 0 10px;
 }
 </style>
