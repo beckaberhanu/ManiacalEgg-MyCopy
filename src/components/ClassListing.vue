@@ -144,13 +144,15 @@ export default {
 }
 
 .class-listing.collapsed:not(.hasExpanded) .detail-section {
+  display: flex;
   height: 0;
   padding: 0;
   margin: 0;
   visibility: hidden;
 }
 .class-listing.collapsed.hasExpanded .detail-section {
-  animation: collapse-tile-anim 1s cubic-bezier(0.4, 0, 0.59, 1);
+  display: flex;
+  animation: collapse-tile-anim 0.4s cubic-bezier(0.4, 0, 0.59, 1);
   max-height: 0;
   padding: 0;
   margin: 0;
@@ -171,7 +173,8 @@ export default {
     opacity: 0;
   }
 }
-.detail-section {
+
+.class-listing:not(.collapsed) .detail-section {
   display: flex;
   margin: 10px 0 5px 0;
   height: 0%;
