@@ -1,5 +1,5 @@
 <template>
-  <div class="class-listing" :class="{collapsed: isCollapsed}">
+  <div class="class-listing" :class="{collapsed: isCollapsed, hasExpanded: hasExpanded}">
     <div class="preview-section" @click="toggleExpand()">
       <div class="preview-course-title-container">
         <h2 class="preview-course-title">{{data.Title}}</h2>
@@ -72,12 +72,14 @@ export default {
   },
   data() {
     return {
-      isCollapsed: true
+      isCollapsed: true,
+      hasExpanded: false
     };
   },
   methods: {
     toggleExpand: function() {
       this.isCollapsed = !this.isCollapsed;
+      this.hasExpanded = true;
     },
     reformatTimeNormal: function(time) {
       console.log(time);
@@ -141,8 +143,33 @@ export default {
   margin: 0 10px;
 }
 
-.class-listing.collapsed .detail-section {
-  display: none;
+.class-listing.collapsed:not(.hasExpanded) .detail-section {
+  height: 0;
+  padding: 0;
+  margin: 0;
+  visibility: hidden;
+}
+.class-listing.collapsed.hasExpanded .detail-section {
+  animation: collapse-tile-anim 1s cubic-bezier(0.4, 0, 0.59, 1);
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+@keyframes collapse-tile-anim {
+  0% {
+    max-height: 400px;
+    padding: 10px 0;
+    margin: 10px 0 5px;
+    opacity: 1;
+  }
+  100% {
+    max-height: 0px;
+    padding: 0px;
+    margin: 0;
+    opacity: 0;
+  }
 }
 .detail-section {
   display: flex;
@@ -157,10 +184,14 @@ export default {
 @keyframes expand-tile-anim {
   0% {
     max-height: 0px;
+    padding: 0px;
+    margin: 0;
     opacity: 0;
   }
   100% {
     max-height: 400px;
+    padding: 10px 0;
+    margin: 10px 0 5px;
     opacity: 1;
   }
 }
