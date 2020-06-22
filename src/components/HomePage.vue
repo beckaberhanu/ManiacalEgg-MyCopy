@@ -1,12 +1,13 @@
 <template>
   <div id="app">
     <div class="left-panel">
-      <div class="search-btns"></div>
+      <div class="search-filters"></div>
+      <div class="search-btns-panel"></div>
     </div>
     <div class="right-panel">
       <h1 class="site-title">Maniacal Egg</h1>
       <div class="class-listings-scroll-panel">
-        <div class="column-keys"></div>
+        <div class="class-listings-scroll-header"></div>
         <ClassListing v-for="i in 20" :key="i" :data="course"></ClassListing>
       </div>
     </div>
@@ -26,10 +27,10 @@ export default {
       course: {
         Title: "Core Concept of Computer Science",
         ClassCode: "COMP 123",
-        Department: "Computer Science",
+        Departments: ["Computer Science", "bla bla"],
         DistributionReq: "Natural Science and Mathematics",
         Description:
-          "This course introduces the field of computer science, including central concepts such as the design and implementation of algorithms and programs, testing and analyzing programs, the representation of information within the computer, and the role of abstraction and metaphor in computer science. The exploration of these central ideas will draw examples from a range of application areas including multimedia processing, turtle graphics, and text processing. Course work will use the Python programming language.",
+          "This course introduces the field of computer science, including central concepts such as the design and implementation of algorithms and programs, testing and analyzing programs, the representation of information within the computer, and the role of abstraction and metaphor in computer science. The exploration of these central ideas will draw examples from a range of application areas including multimedia processing, turtle graphics, and text processing. Course work will use the Python programming language. This course introduces the field of computer science, including central concepts such as the design and implementation of algorithms and p.This course introduces the field of computer science, including central concepts such as the design and implementation of algorithms and p.",
         GeneralEds: ["Quantitative Thinking Q3"],
         Prerequisites: [],
         Sections: [
@@ -38,7 +39,7 @@ export default {
             Instructor: "Lian Duan",
             Room: "OLRI 258",
             Date: "M W F",
-            Time: [9.44, 10.44],
+            Time: [9.67, 10.67],
             Availability: [25, 25]
           },
           {
@@ -46,7 +47,7 @@ export default {
             Instructor: "Elizabeth Ernst",
             Room: "OLRI 258",
             Date: "M W F",
-            Time: [10.56, 11.56],
+            Time: [10.83, 11.83],
             Availability: [25, 25]
           },
           {
@@ -62,7 +63,7 @@ export default {
             Instructor: "STAFF",
             Room: "OLRI 258",
             Date: "M W F",
-            Time: [13.11, 14.11],
+            Time: [13.17, 14.17],
             Availability: [25, 25]
           },
           {
@@ -70,7 +71,7 @@ export default {
             Instructor: "STAFF",
             Room: "OLRI 258",
             Date: "M W F",
-            Time: [14.22, 15.22],
+            Time: [14.33, 15.33],
             Availability: [25, 25]
           }
         ]
@@ -109,6 +110,18 @@ body {
   border-width: 0 1px 0 0;
   border-color: #c7c7c7;
   border-style: solid;
+  display: flex;
+  flex-direction: column;
+}
+.search-filters {
+  flex: 1;
+}
+.search-btns-panel {
+  height: 80px;
+  border-width: 1px 0 0 0;
+  border-color: #c7c7c7;
+  border-style: solid;
+  justify-self: flex-end;
 }
 .right-panel {
   display: flex;
@@ -132,5 +145,17 @@ body {
   width: 100%;
   overflow-y: scroll;
   align-items: stretch;
+}
+.class-listings-scroll-header {
+  margin: 10px 20px;
+  height: 40px;
+  align-self: stretch;
+  border-radius: 15px;
+  border: 1px solid #c7c7c7;
+  box-shadow: 0 4px 16px rgba(173, 0, 0, 0.16);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 10px;
+  background-color: rgb(240, 240, 255);
 }
 </style>
