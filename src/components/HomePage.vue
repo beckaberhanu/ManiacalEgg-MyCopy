@@ -12,7 +12,7 @@
           <h2 class="scroll-headers course-id-header">Course Id</h2>
           <h2 class="scroll-headers department-header">Department</h2>
         </div>
-        <ClassListing v-for="i in 20" :key="i" :data="course"></ClassListing>
+        <ClassListing v-for="(course, index) in courses" :key="index" :data="course"></ClassListing>
       </div>
     </div>
   </div>
@@ -20,6 +20,7 @@
 
 <script>
 import ClassListing from "./ClassListing.vue";
+import { courses } from "../courseCatalog.js";
 
 export default {
   name: "App",
@@ -28,58 +29,7 @@ export default {
   },
   data() {
     return {
-      course: {
-        Title: "Core Concept of Computer Science",
-        ClassCode: "COMP 123",
-        Departments: ["Computer Science", "bla bla"],
-        DistributionReq: "Natural Science and Mathematics",
-        Description:
-          "This course introduces the field of computer science, including central concepts such as the design and implementation of algorithms and programs, testing and analyzing programs, the representation of information within the computer, and the role of abstraction and metaphor in computer science. The exploration of these central ideas will draw examples from a range of application areas including multimedia processing, turtle graphics, and text processing. Course work will use the Python programming language. This course introduces the field of computer science, including central concepts such as the design and implementation of algorithms and p.This course introduces the field of computer science, including central concepts such as the design and implementation of algorithms and p.",
-        GeneralEds: ["Quantitative Thinking Q3"],
-        Prerequisites: [],
-        Sections: [
-          {
-            id: "01",
-            Instructor: "Lian Duan",
-            Room: "OLRI 258",
-            Date: "M W F",
-            Time: [9.67, 10.67],
-            Availability: [25, 25]
-          },
-          {
-            id: "02",
-            Instructor: "Elizabeth Ernst",
-            Room: "OLRI 258",
-            Date: "M W F",
-            Time: [10.83, 11.83],
-            Availability: [25, 25]
-          },
-          {
-            id: "03",
-            Instructor: "Elizabeth Ernst",
-            Room: "OLRI 258",
-            Date: "M W F",
-            Time: [24.0, 13.0],
-            Availability: [25, 25]
-          },
-          {
-            id: "04",
-            Instructor: "STAFF",
-            Room: "OLRI 258",
-            Date: "M W F",
-            Time: [13.17, 14.17],
-            Availability: [25, 25]
-          },
-          {
-            id: "05",
-            Instructor: "STAFF",
-            Room: "OLRI 258",
-            Date: "M W F",
-            Time: [14.33, 15.33],
-            Availability: [25, 25]
-          }
-        ]
-      }
+      courses: courses
     };
   }
 };

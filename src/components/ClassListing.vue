@@ -4,7 +4,7 @@
       <div class="preview-course-title-container">
         <h2 class="preview-course-title">{{data.Title}}</h2>
       </div>
-      <h3 class="preview-course-code">{{data.ClassCode}}</h3>
+      <h3 class="preview-course-code">{{crossListedClassCode(data.ClassCode)}}</h3>
       <h3 v-if="data.Departments.length>1" class="preview-course-department">Cross Listed Course</h3>
       <h3 v-else class="preview-course-department">{{data.Departments[0]}}</h3>
     </div>
@@ -16,18 +16,18 @@
           <li v-for="(Department,index2) in data.Departments" :key="index2">{{Department}}</li>
         </ul>
 
-        <p class="course-detail-category">Distribution Requirments</p>
-        <ul class="course-detail-info">
+        <p class="course-detail-category" v-if="data.DistributionReq">Distribution Requirments</p>
+        <ul class="course-detail-info" v-if="data.DistributionReq">
           <li>{{data.DistributionReq}}</li>
         </ul>
 
-        <p class="course-detail-category">General Education Requirments</p>
-        <ul class="course-detail-info">
+        <p class="course-detail-category" v-if="GeneralEds">General Education Requirments</p>
+        <ul class="course-detail-info" v-if="GeneralEds">
           <li v-for="(GeneralEd,index2) in data.GeneralEds" :key="index2">{{GeneralEd}}</li>
         </ul>
 
-        <p class="course-detail-category">Prerequisites</p>
-        <ul class="course-detail-info">
+        <p class="course-detail-category" v-if="data.Prerequisites">Prerequisites</p>
+        <ul class="course-detail-info" v-if="data.Prerequisites">
           <li v-for="(Prereq,index2) in data.Prerequisites" :key="index2">{{Prereq}}</li>
         </ul>
       </div>
@@ -52,7 +52,7 @@
             <td>{{section.Room}}</td>
             <td>
               <ul class="section-table-time-cell">
-                <li>{{section.Date}}</li>
+                <li>{{section.Day}}</li>
                 <li>{{ reformatTimeNormal(section.Time[0]) }} to {{ reformatTimeNormal(section.Time[1]) }}</li>
               </ul>
             </td>
@@ -90,6 +90,16 @@ export default {
       minute = minute < 10 ? "0" + minute : minute;
       var am_pm = time < 12 ? "am" : "pm";
       return hour + ":" + minute + " " + am_pm;
+    },
+    crossListedClassCode: function(codes) {
+      var newCode = codes[0].substring(0, codes[0].indexOf(" "));
+      console.log(codes);
+      for (var i = 1; i < codes.length; i++) {
+        console.log(i);
+        newCode += "/" + codes[i].substring(0, codes[i].indexOf(" "));
+      }
+      newCode += " " + codes[0].substring(codes[0].indexOf(" ") + 1);
+      return newCode;
     }
   }
 };
