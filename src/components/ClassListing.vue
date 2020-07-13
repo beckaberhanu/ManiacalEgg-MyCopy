@@ -9,27 +9,32 @@
       <h3 v-else class="preview-course-department">{{data.Departments[0]}}</h3>
     </div>
     <div class="detail-section">
-      <p class="course-description">{{data.Description}}</p>
-      <div class="course-details">
-        <p class="course-detail-category">Department</p>
-        <ul class="course-detail-info">
-          <li v-for="(Department,index2) in data.Departments" :key="index2">{{Department}}</li>
-        </ul>
+      <div style="display:flex;">
+        <p class="course-description">{{data.Description}}</p>
+        <div class="course-details">
+          <p class="course-detail-category">Department</p>
+          <ul class="course-detail-info">
+            <li v-for="(Department,index2) in data.Departments" :key="index2">{{Department}}</li>
+          </ul>
 
-        <p class="course-detail-category" v-if="data.DistributionReq">Distribution Requirments</p>
-        <ul class="course-detail-info" v-if="data.DistributionReq">
-          <li>{{data.DistributionReq}}</li>
-        </ul>
+          <p class="course-detail-category" v-if="data.DistributionReq">Distribution Requirments</p>
+          <ul class="course-detail-info" v-if="data.DistributionReq">
+            <li>{{data.DistributionReq}}</li>
+          </ul>
 
-        <p class="course-detail-category" v-if="GeneralEds">General Education Requirments</p>
-        <ul class="course-detail-info" v-if="GeneralEds">
-          <li v-for="(GeneralEd,index2) in data.GeneralEds" :key="index2">{{GeneralEd}}</li>
-        </ul>
+          <p
+            class="course-detail-category"
+            v-if="data.GeneralEds.length>0"
+          >General Education Requirments</p>
+          <ul class="course-detail-info" v-if="data.GeneralEds.length>0">
+            <li v-for="(GeneralEd,index2) in data.GeneralEds" :key="index2">{{GeneralEd}}</li>
+          </ul>
 
-        <p class="course-detail-category" v-if="data.Prerequisites">Prerequisites</p>
-        <ul class="course-detail-info" v-if="data.Prerequisites">
-          <li v-for="(Prereq,index2) in data.Prerequisites" :key="index2">{{Prereq}}</li>
-        </ul>
+          <p class="course-detail-category" v-if="data.Prerequisites">Prerequisites</p>
+          <ul class="course-detail-info" v-if="data.Prerequisites">
+            <li v-for="(Prereq,index2) in data.Prerequisites" :key="index2">{{Prereq}}</li>
+          </ul>
+        </div>
       </div>
       <table class="sections-table">
         <thead>
@@ -68,11 +73,16 @@
 export default {
   name: "ClassListing",
   props: {
-    data: Object
+    data: Object,
+    isCollapsed: {
+      type: Boolean,
+      default() {
+        return true;
+      }
+    }
   },
   data() {
     return {
-      isCollapsed: true,
       hasExpanded: false
     };
   },
@@ -82,7 +92,6 @@ export default {
       this.hasExpanded = true;
     },
     reformatTimeNormal: function(time) {
-      console.log(time);
       var hour = Math.floor(time % 12);
       hour = hour == 0 ? 12 : hour;
       var minute = time - Math.floor(time);
@@ -93,9 +102,7 @@ export default {
     },
     crossListedClassCode: function(codes) {
       var newCode = codes[0].substring(0, codes[0].indexOf(" "));
-      console.log(codes);
       for (var i = 1; i < codes.length; i++) {
-        console.log(i);
         newCode += "/" + codes[i].substring(0, codes[i].indexOf(" "));
       }
       newCode += " " + codes[0].substring(codes[0].indexOf(" ") + 1);
@@ -155,6 +162,7 @@ export default {
 
 .class-listing.collapsed:not(.hasExpanded) .detail-section {
   display: flex;
+  flex-direction: column;
   height: 0;
   padding: 0;
   margin: 0;
@@ -162,6 +170,7 @@ export default {
 }
 .class-listing.collapsed.hasExpanded .detail-section {
   display: flex;
+  flex-direction: column;
   animation: collapse-tile-anim 0.4s cubic-bezier(0.4, 0, 0.59, 1);
   max-height: 0;
   padding: 0;
@@ -186,6 +195,7 @@ export default {
 
 .class-listing:not(.collapsed) .detail-section {
   display: flex;
+  flex-direction: column;
   margin: 10px 0 5px 0;
   height: 0%;
   border-width: 2px 0 0 0;
@@ -223,9 +233,7 @@ export default {
 
 .course-details {
   padding: 0 20px;
-  border-width: 0 2px 0 0;
-  border-style: solid;
-  border-color: #d2d2d2;
+  border: none;
   flex: 2;
   min-width: 180px;
 }
@@ -245,8 +253,7 @@ export default {
 .sections-table {
   border-collapse: collapse;
   flex: 1;
-  margin-left: 20px;
-  margin: 0 10px;
+  margin: 0;
   flex: 1;
   min-width: 400px;
 }

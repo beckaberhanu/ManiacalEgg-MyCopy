@@ -5,14 +5,25 @@
       <div class="search-btns-panel"></div>
     </div>
     <div class="right-panel">
-      <h1 class="site-title">Maniacal Egg</h1>
+      <div class="site-header">
+        <h1 class="site-title">Maniacal Egg</h1>
+        <label for="collapse-listings">
+          <input id="collapse-listings" type="checkbox" v-model="collapseClassListings" />
+          Collapsed Listings
+        </label>
+      </div>
       <div class="class-listings-scroll-panel">
         <div class="class-listings-scroll-header">
           <h2 class="scroll-headers course-title-header">Course Title</h2>
           <h2 class="scroll-headers course-id-header">Course Id</h2>
           <h2 class="scroll-headers department-header">Department</h2>
         </div>
-        <ClassListing v-for="(course, index) in courses" :key="index" :data="course"></ClassListing>
+        <ClassListing
+          v-for="(course, index) in courses"
+          :key="index"
+          :data="course"
+          :isCollapsed="collapseClassListings"
+        ></ClassListing>
       </div>
     </div>
   </div>
@@ -29,7 +40,8 @@ export default {
   },
   data() {
     return {
-      courses: courses
+      courses: courses,
+      collapseClassListings: true
     };
   }
 };
@@ -82,6 +94,14 @@ body {
   flex: 1;
   flex-direction: column;
 }
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-width: 0 0 1px 0;
+  border-color: #c7c7c7;
+  border-style: solid;
+}
 .site-title {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 3em;
@@ -89,9 +109,6 @@ body {
   text-align: start;
   margin: 0;
   padding: 10px 20px;
-  border-width: 0 0 1px 0;
-  border-color: #c7c7c7;
-  border-style: solid;
 }
 .class-listings-scroll-panel {
   align-self: center;
