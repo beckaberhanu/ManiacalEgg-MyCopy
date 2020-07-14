@@ -2,7 +2,10 @@
   <div id="app">
     <div class="left-panel">
       <div class="search-filters"></div>
-      <div class="search-btns-panel"></div>
+      <div class="search-btns-panel">
+        <button class="clear-filters-btn float-btn">Clear</button>
+        <button class="submit-filters-btn float-btn">Apply filters</button>
+      </div>
     </div>
     <div class="right-panel">
       <div class="site-header">
@@ -88,6 +91,43 @@ body {
   border-color: #c7c7c7;
   border-style: solid;
   justify-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.clear-filters-btn {
+  border: none;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 17px;
+  margin: 0 10px;
+  box-shadow: 0 7px 14px rgba(0, 13, 173, 0.305);
+  background-color: #01426a;
+}
+.submit-filters-btn {
+  border: none;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 700;
+  border-radius: 17px;
+  padding: 12px 20px;
+  margin: 0 20px 0 10px;
+  box-shadow: 0 7px 14px rgba(173, 0, 0, 0.305);
+  background-color: #e44420;
+}
+.float-btn:hover {
+  transform: scale(1.07);
+  animation: btn-up 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+@keyframes btn-up {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.07);
+  }
 }
 .right-panel {
   display: flex;
@@ -101,6 +141,7 @@ body {
   border-width: 0 0 1px 0;
   border-color: #c7c7c7;
   border-style: solid;
+  padding: 0px 20px;
 }
 .site-title {
   font-family: Arial, Helvetica, sans-serif;
@@ -108,7 +149,7 @@ body {
   font-weight: 900;
   text-align: start;
   margin: 0;
-  padding: 10px 20px;
+  padding: 10px 0px;
 }
 .class-listings-scroll-panel {
   align-self: center;
@@ -125,6 +166,9 @@ body {
   border: 1px solid #c7c7c7;
   box-shadow: 0 4px 16px rgba(173, 0, 0, 0.16);
   position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
   position: sticky;
   top: 10px;
   background-color: rgb(240, 240, 255);
@@ -138,7 +182,7 @@ body {
   text-align: start;
 }
 .scroll-headers.course-title-header {
-  min-width: 300px;
+  min-width: 400px;
   flex: 5;
 }
 .scroll-headers.course-id-header {
@@ -147,7 +191,7 @@ body {
   flex: 2;
 }
 .scroll-headers.department-header {
-  min-width: 400px;
+  min-width: 300px;
   flex: 1;
   margin: 0 10px;
 }

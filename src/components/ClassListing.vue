@@ -9,7 +9,7 @@
       <h3 v-else class="preview-course-department">{{data.Departments[0]}}</h3>
     </div>
     <div class="detail-section">
-      <div style="display:flex;">
+      <div style="display:flex; padding: 9px 20px;">
         <p class="course-description">{{data.Description}}</p>
         <div class="course-details">
           <p class="course-detail-category">Department</p>
@@ -36,35 +36,42 @@
           </ul>
         </div>
       </div>
-      <table class="sections-table">
-        <thead>
-          <tr class="section-table-top-row">
-            <th>Section</th>
-            <th>Instructor</th>
-            <th>Location</th>
-            <th>Time</th>
-            <th>Availability</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class="section-table-entry-row"
-            v-for="(section, index2) in data.Sections"
-            :key="index2"
-          >
-            <td>{{section.id}}</td>
-            <td>{{section.Instructor}}</td>
-            <td>{{section.Room}}</td>
-            <td>
-              <ul class="section-table-time-cell">
-                <li>{{section.Day}}</li>
-                <li>{{ reformatTimeNormal(section.Time[0]) }} to {{ reformatTimeNormal(section.Time[1]) }}</li>
-              </ul>
-            </td>
-            <td>{{section.Availability[0]}}/{{section.Availability[1]}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="sections-table-container">
+        <table class="sections-table">
+          <thead>
+            <tr class="section-table-top-row">
+              <th>Section</th>
+              <th>Instructor</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th>Time</th>
+              <th>Availability</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              class="section-table-entry-row"
+              v-for="(section, index2) in data.Sections"
+              :key="index2"
+            >
+              <td>{{section.id}}</td>
+              <td>{{section.Instructor}}</td>
+              <td>{{section.Room}}</td>
+              <td>
+                <ul class="section-table-time-cell">
+                  <li>{{section.Day}}</li>
+                </ul>
+              </td>
+              <td>
+                <ul class="section-table-time-cell">
+                  <li>{{ reformatTimeNormal(section.Time[0]) }} to {{ reformatTimeNormal(section.Time[1]) }}</li>
+                </ul>
+              </td>
+              <td>{{section.Availability[0]}}/{{section.Availability[1]}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -113,13 +120,13 @@ export default {
 </script>
 <style scoped>
 .class-listing {
-  padding: 9px 20px;
   border: 1px solid #d2d2d2;
   border-radius: 18px;
   margin: 10px 30px;
   box-shadow: 0 4px 14px rgba(0, 13, 173, 0.16);
 }
 .preview-section {
+  padding: 9px 20px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -129,7 +136,7 @@ export default {
 }
 .preview-course-title-container {
   margin: 0;
-  min-width: 300px;
+  min-width: 400px;
   flex: 5;
   height: 52px;
   display: flex;
@@ -155,7 +162,7 @@ export default {
   text-align: start;
   font-size: 1em;
   margin: 0;
-  min-width: 400px;
+  min-width: 300px;
   flex: 1;
   margin: 0 10px;
 }
@@ -181,14 +188,10 @@ export default {
 @keyframes collapse-tile-anim {
   0% {
     max-height: 400px;
-    padding: 10px 0;
-    margin: 10px 0 5px;
     opacity: 1;
   }
   100% {
     max-height: 0px;
-    padding: 0px;
-    margin: 0;
     opacity: 0;
   }
 }
@@ -196,25 +199,19 @@ export default {
 .class-listing:not(.collapsed) .detail-section {
   display: flex;
   flex-direction: column;
-  margin: 10px 0 5px 0;
   height: 0%;
   border-width: 2px 0 0 0;
   border-style: solid;
   border-color: #d2d2d2;
-  padding: 10px 0;
-  animation: expand-tile-anim 1s cubic-bezier(0.4, 0, 0.59, 1);
+  animation: expand-tile-anim 0.6s cubic-bezier(0.4, 0, 0.59, 1);
 }
 @keyframes expand-tile-anim {
   0% {
     max-height: 0px;
-    padding: 0px;
-    margin: 0;
     opacity: 0;
   }
   100% {
     max-height: 400px;
-    padding: 10px 0;
-    margin: 10px 0 5px;
     opacity: 1;
   }
 }
@@ -250,11 +247,18 @@ export default {
   padding: 0 0 0 20px;
   margin-bottom: 5px;
 }
+.sections-table-container {
+  padding: 9px 20px;
+  border-width: 2px 0 0 0;
+  border-style: solid;
+  border-color: #d2d2d2;
+}
 .sections-table {
   border-collapse: collapse;
   flex: 1;
   margin: 0;
   flex: 1;
+  width: 100%;
   min-width: 400px;
 }
 .section-table-top-row {
