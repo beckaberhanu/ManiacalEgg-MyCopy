@@ -14,6 +14,7 @@
           <input id="collapse-listings" type="checkbox" v-model="collapseClassListings" />
           Collapsed Listings
         </label>
+        <button @click="search(filter1)">Check filter</button>
       </div>
       <div class="class-listings-scroll-panel">
         <div class="class-listings-scroll-header">
@@ -39,14 +40,113 @@ import { courses } from "../courseCatalog.js";
 export default {
   name: "App",
   components: {
-    ClassListing
+    ClassListing,
   },
   data() {
     return {
       courses: courses,
-      collapseClassListings: true
+      filter1: {
+        Title: "",
+        Schedules: [],
+        Departments: [],
+        DistributionReq: "",
+        GeneralEds: ["Q1", "WA"],
+      },
+      collapseClassListings: true,
     };
-  }
+  },
+  methods: {
+    checkTimeMatch: function (course, schedules) {
+      if (schedules.length == 0) {
+        return true;
+      }
+      var match = false;
+      schedules.forEach(function (schedule) {
+        course.Sections.forEach(function (section) {
+          var DateMatch = schedule.Day == section.Day;
+          var TimeMatch =
+            schedule.Time[0] <= section.Time[0] &&
+            schedule.Time[1] >= section.Time[1];
+          if (DateMatch && TimeMatch) {
+            match = true;
+          }
+        });
+      });
+      return match;
+    },
+    checkDeptMatch: function (course, departments) {
+      if (departments.length == 0) {
+        return true;
+      }
+      var match = false;
+      departments.forEach(function (department) {
+        if (course.Departments.includes(department)) {
+          match = true;
+        }
+      });
+      return match;
+    },
+    checkGeneralEdsMatch: function (course, generalEds) {
+      if (generalEds.length == 0) {
+        return true;
+      }
+      var numMatched = 0;
+      generalEds.forEach(function (generalEd) {
+        if (["Q1", "Q2", "Q3"].includes(generalEd)) {
+          numMatched += course.GeneralEds.includes(
+            "Quantitative Thinking " + generalEd
+          );
+        } else if (["WA", "WP", "WC"].includes(generalEd)) {
+          numMatched += course.GeneralEds.includes("Writing " + generalEd);
+        } else if (course.GeneralEds.includes(generalEd)) {
+          numMatched += 1;
+        }
+      });
+      return numMatched == generalEds.length;
+    },
+    search: function (filter) {
+      console.log(filter);
+      this.courses = [];
+      courses.forEach(function (course) {
+        var TitleMatch = course.Title == filter.Title || filter.Title == "";
+        var DepartmentMatch = this.checkDeptMatch(course, filter.Departments);
+        var TimeMatch = this.checkTimeMatch(course, filter.Schedules);
+        var DistReqtMatch =
+          course.DistributionReq == filter.DistributionReq ||
+          filter.DistributionReq == "";
+        var GeneralEdsMatch = this.checkGeneralEdsMatch(
+          course,
+          filter.GeneralEds
+        );
+
+        if (course.Title == "The Obama Presidency") {
+          console.log(course);
+          console.log("Title Match", TitleMatch);
+          console.log(
+            "sections:",
+            course.Sections,
+            "timefilter:",
+            filter.Schedules
+          );
+          console.log("Department Match", DepartmentMatch);
+          console.log("Time Match", TimeMatch);
+          console.log("Dist Reqt Match", DistReqtMatch);
+          console.log("GeneralEds Match", GeneralEdsMatch);
+        }
+
+        if (
+          TitleMatch &&
+          TimeMatch &&
+          DepartmentMatch &&
+          DistReqtMatch &&
+          GeneralEdsMatch
+        ) {
+          console.log("yipi");
+          this.courses.push(course);
+        }
+      }, this);
+    },
+  },
 };
 </script>
 

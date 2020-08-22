@@ -85,20 +85,20 @@ export default {
       type: Boolean,
       default() {
         return true;
-      }
-    }
+      },
+    },
   },
   data() {
     return {
-      hasExpanded: false
+      hasExpanded: false,
     };
   },
   methods: {
-    toggleExpand: function() {
+    toggleExpand: function () {
       this.isCollapsed = !this.isCollapsed;
       this.hasExpanded = true;
     },
-    reformatTimeNormal: function(time) {
+    reformatTimeNormal: function (time) {
       var hour = Math.floor(time % 12);
       hour = hour == 0 ? 12 : hour;
       var minute = time - Math.floor(time);
@@ -107,15 +107,15 @@ export default {
       var am_pm = time < 12 ? "am" : "pm";
       return hour + ":" + minute + " " + am_pm;
     },
-    crossListedClassCode: function(codes) {
+    crossListedClassCode: function (codes) {
       var newCode = codes[0].substring(0, codes[0].indexOf(" "));
       for (var i = 1; i < codes.length; i++) {
         newCode += "/" + codes[i].substring(0, codes[i].indexOf(" "));
       }
       newCode += " " + codes[0].substring(codes[0].indexOf(" ") + 1);
       return newCode;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -243,7 +243,7 @@ export default {
 .course-detail-info {
   font-size: 0.75em;
   text-align: start;
-  list-style-image: url("../assets/Bullet.svg");
+  list-style-image: url("../assets/Icons/Bullet.svg");
   padding: 0 0 0 20px;
   margin-bottom: 5px;
 }
@@ -266,7 +266,7 @@ export default {
   font-family: "DIN Condensed";
 }
 .section-table-time-cell {
-  list-style-image: url("../assets/Bullet.svg");
+  list-style-image: url("../assets/Icons/Bullet.svg");
   padding: 0 0 0 20px;
   margin: 0;
 }
