@@ -2,11 +2,101 @@
   <div id="app">
     <div class="left-panel">
       <div class="search-filters">
-        <drop-down title="General Education Req">
-          <div style="height: 100px; width: 100%; background-color: green"></div>
+        <drop-down title="General Education Requirements">
+          <label class="filter-checkbox-label">
+            <input
+              class="filter-checkbox"
+              type="checkbox"
+              v-model="filters.GeneralEds.Internationalism"
+            />
+            Internationalism
+          </label>
+          <label class="filter-checkbox-label">
+            <input
+              class="filter-checkbox"
+              type="checkbox"
+              v-model="filters.GeneralEds['U.S. Identities and Differences']"
+            />
+            US Identities &amp; Differences
+          </label>
+          <h3>Quantitative Thinking</h3>
+          <div style="display: flex;">
+            <label class="filter-checkbox-label">
+              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.Q1" />
+              Q1
+            </label>
+            <label class="filter-checkbox-label">
+              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.Q2" />
+              Q2
+            </label>
+            <label class="filter-checkbox-label">
+              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.Q3" />
+              Q3
+            </label>
+          </div>
+          <h3>Writing</h3>
+          <div style="display: flex;">
+            <label class="filter-checkbox-label">
+              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.WA" />
+              Wa
+            </label>
+            <label class="filter-checkbox-label">
+              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.WP" />
+              WP
+            </label>
+            <label class="filter-checkbox-label">
+              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.WC" />
+              WC
+            </label>
+          </div>
         </drop-down>
-        <drop-down title="General Education Req">
-          <div style="height: 600px; width: 100%; background-color: green"></div>
+        <drop-down title="Distribution Requirements">
+          <label class="filter-checkbox-label">
+            <input
+              class="filter-checkbox"
+              type="checkbox"
+              v-model="filters.DistributionReq['Natural science and mathematics']"
+            />
+            Natural science and mathematics
+          </label>
+          <label class="filter-checkbox-label">
+            <input
+              class="filter-checkbox"
+              type="checkbox"
+              v-model="filters.DistributionReq['Social science']"
+            />
+            Social science
+          </label>
+          <label class="filter-checkbox-label">
+            <input
+              class="filter-checkbox"
+              type="checkbox"
+              v-model="filters.DistributionReq.Humanities"
+            />
+            Humanities
+          </label>
+          <label class="filter-checkbox-label">
+            <input
+              class="filter-checkbox"
+              type="checkbox"
+              v-model="filters.DistributionReq['Fine arts']"
+            />
+            Fine arts
+          </label>
+        </drop-down>
+        <drop-down title="Departments">
+          <label
+            v-for="(department, index) in Object.keys(filters.Departments)"
+            :key="index"
+            class="filter-checkbox-label"
+          >
+            <input
+              class="filter-checkbox"
+              type="checkbox"
+              v-model="filters.Departments[department]"
+            />
+            {{department}}
+          </label>
         </drop-down>
       </div>
       <div class="search-btns-panel">
@@ -43,7 +133,8 @@
 <script>
 import ClassListing from "./ClassListing.vue";
 import DropDown from "./DropDown.vue";
-import { courses } from "../courseCatalog.js";
+import { courses } from "../assets/Data/courseCatalog.js";
+import { departments } from "../assets/Data/departments.js";
 
 export default {
   name: "App",
@@ -54,12 +145,28 @@ export default {
   data() {
     return {
       courses: courses,
-      filter1: {
+      filters: {
         Title: "",
+        CourseID: "",
+        Instructor: "",
         Schedules: [],
-        Departments: [],
-        DistributionReq: "",
-        GeneralEds: ["Q1", "WA"],
+        Departments: departments,
+        DistributionReq: {
+          "Natural science and mathematics": false,
+          Humanities: false,
+          "Social science": false,
+          "Fine arts": false,
+        },
+        GeneralEds: {
+          Internationalism: false,
+          "U.S. Identities and Differences": false,
+          Q1: false,
+          Q2: false,
+          Q3: false,
+          WA: false,
+          WP: false,
+          WC: false,
+        },
       },
       collapseClassListings: true,
     };
@@ -195,6 +302,9 @@ body {
 .search-filters {
   flex: 1;
   overflow: scroll;
+}
+.filter-checkbox-label {
+  text-align: start;
 }
 .search-btns-panel {
   height: 80px;
