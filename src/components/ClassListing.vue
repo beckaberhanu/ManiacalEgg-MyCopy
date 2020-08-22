@@ -119,6 +119,7 @@ export default {
 };
 </script>
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&display=swap");
 .class-listing {
   border: 1px solid #d2d2d2;
   border-radius: 18px;
@@ -144,8 +145,9 @@ export default {
   justify-content: center;
 }
 .preview-course-title {
-  font-family: "DIN Condensed";
-  font-size: 1.4em;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.2em;
+  font-weight: 500;
   text-align: start;
   margin: 0;
 }
@@ -235,8 +237,9 @@ export default {
   min-width: 180px;
 }
 .course-detail-category {
-  font-family: "DIN Condensed";
-  font-size: 1.1em;
+  font-family: "Oswald", sans-serif;
+  font-size: 1em;
+  font-weight: 500;
   text-align: start;
   margin: 0;
 }
@@ -262,8 +265,8 @@ export default {
   min-width: 400px;
 }
 .section-table-top-row {
-  font-size: 1.1em;
-  font-family: "DIN Condensed";
+  font-size: 0.9em;
+  font-family: "Oswald", sans-serif;
 }
 .section-table-time-cell {
   list-style-image: url("../assets/Icons/Bullet.svg");

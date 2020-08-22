@@ -1,7 +1,14 @@
 <template>
   <div id="app">
     <div class="left-panel">
-      <div class="search-filters"></div>
+      <div class="search-filters">
+        <drop-down title="General Education Req">
+          <div style="height: 100px; width: 100%; background-color: green"></div>
+        </drop-down>
+        <drop-down title="General Education Req">
+          <div style="height: 600px; width: 100%; background-color: green"></div>
+        </drop-down>
+      </div>
       <div class="search-btns-panel">
         <button class="clear-filters-btn float-btn">Clear</button>
         <button class="submit-filters-btn float-btn">Apply filters</button>
@@ -35,12 +42,14 @@
 
 <script>
 import ClassListing from "./ClassListing.vue";
+import DropDown from "./DropDown.vue";
 import { courses } from "../courseCatalog.js";
 
 export default {
   name: "App",
   components: {
     ClassListing,
+    DropDown,
   },
   data() {
     return {
@@ -181,9 +190,11 @@ body {
   border-style: solid;
   display: flex;
   flex-direction: column;
+  min-width: 350px;
 }
 .search-filters {
   flex: 1;
+  overflow: scroll;
 }
 .search-btns-panel {
   height: 80px;
