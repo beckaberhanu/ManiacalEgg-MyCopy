@@ -33,16 +33,39 @@ export default {
   methods: {
     toggleCollapse: function () {
       this.collapsed = !this.collapsed;
+
+      this.slotHeight = this.$el.getElementsByClassName(
+        "content"
+      )[0].scrollHeight;
+
+      console.log(
+        "client height",
+        this.$el.getElementsByClassName("content")[0].clientHeight
+      );
+      console.log(
+        "offest height",
+        this.$el.getElementsByClassName("content")[0].offsetHeight
+      );
+      console.log(
+        "scroll height",
+        this.$el.getElementsByClassName("content")[0].scrollHeight
+      );
     },
   },
   mounted: function () {
+    // this.slotHeight = this.$el.getElementsByClassName(
+    //   "content"
+    // )[0].clientHeight;
+
+    // this.slotHeight = this.$el.getElementsByClassName(
+    //   "content"
+    // )[0].offsetHeight;
+
     this.slotHeight = this.$el.getElementsByClassName(
       "content"
-    )[0].clientHeight;
-    console.log(
-      "slot height",
-      this.$el.getElementsByClassName("content")[0].clientHeight
-    );
+    )[0].scrollHeight;
+
+    // this.slotHeight = 200;
   },
 };
 </script>
@@ -81,6 +104,7 @@ export default {
   align-content: center;
   justify-content: space-between;
   height: 60px;
+  min-height: 60px;
   cursor: pointer;
 }
 .drop-down-vis .title {

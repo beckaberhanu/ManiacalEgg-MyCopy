@@ -20,7 +20,7 @@
             US Identities &amp; Differences
           </label>
           <h3>Quantitative Thinking</h3>
-          <div style="display: flex;">
+          <div style="display: flex; min-height: 21px;">
             <label class="filter-checkbox-label">
               <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.Q1" />
               Q1
@@ -35,7 +35,7 @@
             </label>
           </div>
           <h3>Writing</h3>
-          <div style="display: flex;">
+          <div style="display: flex; min-height: 21px;">
             <label class="filter-checkbox-label">
               <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.WA" />
               Wa
@@ -101,7 +101,7 @@
       </div>
       <div class="search-btns-panel">
         <button class="clear-filters-btn float-btn">Clear</button>
-        <button class="submit-filters-btn float-btn">Apply filters</button>
+        <button class="submit-filters-btn float-btn" @click="search()">Apply filters</button>
       </div>
     </div>
     <div class="right-panel">
@@ -111,7 +111,6 @@
           <input id="collapse-listings" type="checkbox" v-model="collapseClassListings" />
           Collapsed Listings
         </label>
-        <button @click="search(filter1)">Check filter</button>
       </div>
       <div class="class-listings-scroll-panel">
         <div class="class-listings-scroll-header">
@@ -172,6 +171,25 @@ export default {
     };
   },
   methods: {
+    preprocess: function () {
+      // formats the filters to better fit the search functions
+      var filters = this.filters;
+      var filter = {};
+      Object.keys(filters).forEach(function (key) {
+        if (filters[key].constructor == Object) {
+          var array = [];
+          Object.keys(filters[key]).forEach(function (key2) {
+            if (filters[key][key2]) {
+              array.push(key2);
+            }
+          });
+          filter[key] = array;
+        } else {
+          filter[key] = filters[key];
+        }
+      });
+      return filter;
+    },
     checkTimeMatch: function (course, schedules) {
       if (schedules.length == 0) {
         return true;
@@ -202,6 +220,18 @@ export default {
       });
       return match;
     },
+    checkDistribMatch: function (course, distributions) {
+      if (distributions.length == 0) {
+        return true;
+      }
+      var match = false;
+      distributions.forEach(function (distribution) {
+        if (course.DistributionReq == distribution) {
+          match = true;
+        }
+      });
+      return match;
+    },
     checkGeneralEdsMatch: function (course, generalEds) {
       if (generalEds.length == 0) {
         return true;
@@ -220,16 +250,18 @@ export default {
       });
       return numMatched == generalEds.length;
     },
-    search: function (filter) {
+    search: function () {
+      var filter = this.preprocess();
       console.log(filter);
       this.courses = [];
       courses.forEach(function (course) {
         var TitleMatch = course.Title == filter.Title || filter.Title == "";
         var DepartmentMatch = this.checkDeptMatch(course, filter.Departments);
         var TimeMatch = this.checkTimeMatch(course, filter.Schedules);
-        var DistReqtMatch =
-          course.DistributionReq == filter.DistributionReq ||
-          filter.DistributionReq == "";
+        var DistReqtMatch = this.checkDistribMatch(
+          course,
+          filter.DistributionReq
+        );
         var GeneralEdsMatch = this.checkGeneralEdsMatch(
           course,
           filter.GeneralEds
