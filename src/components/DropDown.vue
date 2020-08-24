@@ -1,5 +1,8 @@
 <template>
-  <div :class="['Drop-down-comp',{'collapsed':collapsed}]" :style="expandStyle">
+  <div
+    :class="['Drop-down-comp', { collapsed: collapsed }]"
+    :style="expandStyle"
+  >
     <div class="drop-down-vis" @click="toggleCollapse()">
       <h1 class="title">{{ title }}</h1>
       <img src />
@@ -15,7 +18,7 @@ export default {
   props: {
     title: String,
   },
-  data: function () {
+  data: function() {
     return {
       //   title: "General Education Req",
       slotHeight: 0,
@@ -23,7 +26,7 @@ export default {
     };
   },
   computed: {
-    expandStyle: function () {
+    expandStyle: function() {
       // https://www.telerik.com/blogs/passing-variables-to-css-on-a-vue-component
       return {
         "--height": 80 + this.slotHeight + "px",
@@ -31,7 +34,7 @@ export default {
     },
   },
   methods: {
-    toggleCollapse: function () {
+    toggleCollapse: function() {
       this.collapsed = !this.collapsed;
 
       this.slotHeight = this.$el.getElementsByClassName(
@@ -52,7 +55,7 @@ export default {
       );
     },
   },
-  mounted: function () {
+  mounted: function() {
     // this.slotHeight = this.$el.getElementsByClassName(
     //   "content"
     // )[0].clientHeight;
@@ -76,7 +79,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  padding: 0 20px;
+  padding: 0 15px;
   margin: 10px 10px;
   background-color: #fff;
   border: 1px solid #d2d2d2;

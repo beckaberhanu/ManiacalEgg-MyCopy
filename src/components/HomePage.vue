@@ -22,30 +22,54 @@
           <h3>Quantitative Thinking</h3>
           <div style="display: flex; min-height: 21px;">
             <label class="filter-checkbox-label">
-              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.Q1" />
+              <input
+                class="filter-checkbox"
+                type="checkbox"
+                v-model="filters.GeneralEds.Q1"
+              />
               Q1
             </label>
             <label class="filter-checkbox-label">
-              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.Q2" />
+              <input
+                class="filter-checkbox"
+                type="checkbox"
+                v-model="filters.GeneralEds.Q2"
+              />
               Q2
             </label>
             <label class="filter-checkbox-label">
-              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.Q3" />
+              <input
+                class="filter-checkbox"
+                type="checkbox"
+                v-model="filters.GeneralEds.Q3"
+              />
               Q3
             </label>
           </div>
           <h3>Writing</h3>
           <div style="display: flex; min-height: 21px;">
             <label class="filter-checkbox-label">
-              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.WA" />
-              Wa
+              <input
+                class="filter-checkbox"
+                type="checkbox"
+                v-model="filters.GeneralEds.WA"
+              />
+              WA
             </label>
             <label class="filter-checkbox-label">
-              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.WP" />
+              <input
+                class="filter-checkbox"
+                type="checkbox"
+                v-model="filters.GeneralEds.WP"
+              />
               WP
             </label>
             <label class="filter-checkbox-label">
-              <input class="filter-checkbox" type="checkbox" v-model="filters.GeneralEds.WC" />
+              <input
+                class="filter-checkbox"
+                type="checkbox"
+                v-model="filters.GeneralEds.WC"
+              />
               WC
             </label>
           </div>
@@ -55,7 +79,9 @@
             <input
               class="filter-checkbox"
               type="checkbox"
-              v-model="filters.DistributionReq['Natural science and mathematics']"
+              v-model="
+                filters.DistributionReq['Natural science and mathematics']
+              "
             />
             Natural science and mathematics
           </label>
@@ -95,29 +121,47 @@
               type="checkbox"
               v-model="filters.Departments[department]"
             />
-            {{department}}
+            {{ department }}
           </label>
+        </drop-down>
+        <drop-down title="Date and Time">
+          <button class="add-time-button float-btn" @click="addBaseTime()">
+            Add
+          </button>
+          <DateTimeSlider
+            v-for="index in filters.Schedules.length"
+            :key="index"
+            v-model="filters.Schedules[index - 1]"
+            v-on:remove="removeTime(index - 1)"
+          >
+          </DateTimeSlider>
         </drop-down>
       </div>
       <div class="search-btns-panel">
         <button class="clear-filters-btn float-btn">Clear</button>
-        <button class="submit-filters-btn float-btn" @click="search()">Apply filters</button>
+        <button class="submit-filters-btn float-btn" @click="search()">
+          Apply filters
+        </button>
       </div>
     </div>
     <div class="right-panel">
       <div class="site-header">
         <h1 class="site-title">Maniacal Egg</h1>
         <label for="collapse-listings">
-          <input id="collapse-listings" type="checkbox" v-model="collapseClassListings" />
+          <input
+            id="collapse-listings"
+            type="checkbox"
+            v-model="collapseClassListings"
+          />
           Collapsed Listings
         </label>
       </div>
+      <div class="class-listings-scroll-header">
+        <h2 class="scroll-headers course-title-header">Course Title</h2>
+        <h2 class="scroll-headers course-id-header">Course Id</h2>
+        <h2 class="scroll-headers department-header">Department</h2>
+      </div>
       <div class="class-listings-scroll-panel">
-        <div class="class-listings-scroll-header">
-          <h2 class="scroll-headers course-title-header">Course Title</h2>
-          <h2 class="scroll-headers course-id-header">Course Id</h2>
-          <h2 class="scroll-headers department-header">Department</h2>
-        </div>
         <ClassListing
           v-for="(course, index) in courses"
           :key="index"
@@ -132,18 +176,22 @@
 <script>
 import ClassListing from "./ClassListing.vue";
 import DropDown from "./DropDown.vue";
+import DateTimeSlider from "./DateTimeSlider.vue";
+
 import { courses } from "../assets/Data/courseCatalog.js";
 import { departments } from "../assets/Data/departments.js";
 
 export default {
   name: "App",
   components: {
+    DateTimeSlider,
     ClassListing,
     DropDown,
   },
   data() {
     return {
       courses: courses,
+      rangevalue: [30, 70],
       filters: {
         Title: "",
         CourseID: "",
@@ -171,14 +219,23 @@ export default {
     };
   },
   methods: {
-    preprocess: function () {
+    addBaseTime: function() {
+      this.filters.Schedules.push({
+        Time: [8, 16],
+        Day: "M W F",
+      });
+    },
+    removeTime: function(index) {
+      this.filters.Schedules.splice(index, 1);
+    },
+    preprocess: function() {
       // formats the filters to better fit the search functions
       var filters = this.filters;
       var filter = {};
-      Object.keys(filters).forEach(function (key) {
+      Object.keys(filters).forEach(function(key) {
         if (filters[key].constructor == Object) {
           var array = [];
-          Object.keys(filters[key]).forEach(function (key2) {
+          Object.keys(filters[key]).forEach(function(key2) {
             if (filters[key][key2]) {
               array.push(key2);
             }
@@ -190,13 +247,13 @@ export default {
       });
       return filter;
     },
-    checkTimeMatch: function (course, schedules) {
+    checkTimeMatch: function(course, schedules) {
       if (schedules.length == 0) {
         return true;
       }
       var match = false;
-      schedules.forEach(function (schedule) {
-        course.Sections.forEach(function (section) {
+      schedules.forEach(function(schedule) {
+        course.Sections.forEach(function(section) {
           var DateMatch = schedule.Day == section.Day;
           var TimeMatch =
             schedule.Time[0] <= section.Time[0] &&
@@ -208,36 +265,36 @@ export default {
       });
       return match;
     },
-    checkDeptMatch: function (course, departments) {
+    checkDeptMatch: function(course, departments) {
       if (departments.length == 0) {
         return true;
       }
       var match = false;
-      departments.forEach(function (department) {
+      departments.forEach(function(department) {
         if (course.Departments.includes(department)) {
           match = true;
         }
       });
       return match;
     },
-    checkDistribMatch: function (course, distributions) {
+    checkDistribMatch: function(course, distributions) {
       if (distributions.length == 0) {
         return true;
       }
       var match = false;
-      distributions.forEach(function (distribution) {
+      distributions.forEach(function(distribution) {
         if (course.DistributionReq == distribution) {
           match = true;
         }
       });
       return match;
     },
-    checkGeneralEdsMatch: function (course, generalEds) {
+    checkGeneralEdsMatch: function(course, generalEds) {
       if (generalEds.length == 0) {
         return true;
       }
       var numMatched = 0;
-      generalEds.forEach(function (generalEd) {
+      generalEds.forEach(function(generalEd) {
         if (["Q1", "Q2", "Q3"].includes(generalEd)) {
           numMatched += course.GeneralEds.includes(
             "Quantitative Thinking " + generalEd
@@ -250,11 +307,11 @@ export default {
       });
       return numMatched == generalEds.length;
     },
-    search: function () {
+    search: function() {
       var filter = this.preprocess();
-      console.log(filter);
+      console.log("**** filter", filter);
       this.courses = [];
-      courses.forEach(function (course) {
+      courses.forEach(function(course) {
         var TitleMatch = course.Title == filter.Title || filter.Title == "";
         var DepartmentMatch = this.checkDeptMatch(course, filter.Departments);
         var TimeMatch = this.checkTimeMatch(course, filter.Schedules);
@@ -267,20 +324,20 @@ export default {
           filter.GeneralEds
         );
 
-        if (course.Title == "The Obama Presidency") {
-          console.log(course);
-          console.log("Title Match", TitleMatch);
-          console.log(
-            "sections:",
-            course.Sections,
-            "timefilter:",
-            filter.Schedules
-          );
-          console.log("Department Match", DepartmentMatch);
-          console.log("Time Match", TimeMatch);
-          console.log("Dist Reqt Match", DistReqtMatch);
-          console.log("GeneralEds Match", GeneralEdsMatch);
-        }
+        // if (course.Title == "The Obama Presidency") {
+        //   // console.log(course);
+        //   // console.log("Title Match", TitleMatch);
+        //   // console.log(
+        //   //   "sections:",
+        //   //   course.Sections,
+        //   //   "timefilter:",
+        //   //   filter.Schedules
+        //   // );
+        //   // console.log("Department Match", DepartmentMatch);
+        //   // console.log("Time Match", TimeMatch);
+        //   // console.log("Dist Reqt Match", DistReqtMatch);
+        //   // console.log("GeneralEds Match", GeneralEdsMatch);
+        // }
 
         if (
           TitleMatch &&
@@ -311,6 +368,9 @@ body {
   margin: 0;
   padding: 0;
 }
+button {
+  cursor: pointer;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -338,6 +398,18 @@ body {
 .filter-checkbox-label {
   text-align: start;
 }
+.add-time-button {
+  border: none;
+  align-self: flex-end;
+  color: #fff;
+  font-size: 1em;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 8px 20px;
+  margin: 10px 0;
+  box-shadow: 0 4px 8px rgba(0, 13, 173, 0.305);
+  background-color: #01426a;
+}
 .search-btns-panel {
   height: 80px;
   border-width: 1px 0 0 0;
@@ -349,6 +421,7 @@ body {
   align-items: center;
 }
 .clear-filters-btn {
+  transform: scale(1);
   border: none;
   color: #fff;
   font-size: 1em;
@@ -360,6 +433,7 @@ body {
   background-color: #01426a;
 }
 .submit-filters-btn {
+  transform: scale(1);
   border: none;
   color: #fff;
   font-size: 1em;
@@ -372,15 +446,8 @@ body {
 }
 .float-btn:hover {
   transform: scale(1.07);
-  animation: btn-up 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
-@keyframes btn-up {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.07);
-  }
+  transition: transform 0.4s;
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
 .right-panel {
   display: flex;
@@ -410,6 +477,10 @@ body {
   width: 100%;
   overflow-y: scroll;
   align-items: stretch;
+  position: relative;
+}
+.class-listings-scroll-panel .class-listing:first-child {
+  margin-top: 60px;
 }
 .class-listings-scroll-header {
   margin: 10px 20px;
@@ -418,16 +489,12 @@ body {
   border-radius: 15px;
   border: 1px solid #c7c7c7;
   box-shadow: 0 4px 16px rgba(173, 0, 0, 0.16);
-  position: -webkit-sticky;
-  position: -moz-sticky;
-  position: -ms-sticky;
-  position: -o-sticky;
-  position: sticky;
-  top: 10px;
   background-color: rgb(240, 240, 255);
   display: flex;
   align-items: center;
   padding: 0 30px;
+  margin-bottom: -50px;
+  z-index: 5;
 }
 .scroll-headers {
   margin: 0px;

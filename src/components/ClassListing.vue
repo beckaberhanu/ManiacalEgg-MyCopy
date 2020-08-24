@@ -125,6 +125,7 @@ export default {
   border-radius: 18px;
   margin: 10px 30px;
   box-shadow: 0 4px 14px rgba(0, 13, 173, 0.16);
+  overflow: hidden;
 }
 .preview-section {
   padding: 9px 20px;
